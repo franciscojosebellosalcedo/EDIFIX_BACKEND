@@ -1,0 +1,4 @@
+export const DATABASE_TOKENS = {
+    UNIT_OF_WORK : "UNIT_OF_WORK",
+    ENTITY_MANAGER: "ENTITY_MANAGER",
+}

@@ -9,10 +9,11 @@ export const validateDTO = async <T>(
     const dto = plainToInstance( classDTO , body );
 
     const errors = await validate( dto as object );
-
+    
     if(errors.length){
 
-        throw new Error("Values no valid");
+        console.error("Error in fields and values:" , errors);
+        throw new Error("Values not valid");
 
     }
 

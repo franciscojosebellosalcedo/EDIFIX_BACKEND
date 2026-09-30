@@ -1,0 +1,27 @@
+import { inject, injectable } from "tsyringe";
+import type { GetMenuUseCase } from "../../application/get.menu.use.case.ts";
+import { MENU_TOKENS } from "../../container/menu.container.tokens.ts";
+import type { Request, Response } from "express";
+import type { TMenu } from "../../types/menu.type.ts";
+import { responseHttp } from "../../../../shared/reseponse/handler.response.ts";
+import { MENU_RESPONSE_CODE } from "../../../../shared/reseponse/menu.response.code.ts";
+
+@injectable()
+export class MenuController {
+
+    constructor(
+
+        @inject(MENU_TOKENS.GET_MENU_USE_CASE)
+        private readonly getMenuUseCase: GetMenuUseCase
+    ){}
+
+    getMenu = async ( req: Request, res: Response ) =>{
+        
+        const menu: TMenu[] = await this.getMenuUseCase.execute();
+
+        return res.status( 200 ).json(
+            responseHttp( 200 , MENU_RESPONSE_CODE.MENU_FIND_SUCCESS, true , "Menu obtenido correctamente", menu )
+        );
+        
+    }
+}

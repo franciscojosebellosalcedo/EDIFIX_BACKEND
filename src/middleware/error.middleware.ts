@@ -9,6 +9,8 @@ export const errorMiddleware = (
     res: Response,
     next: NextFunction
 ) => {
+    console.log(error);
+    
 
     if (error instanceof AppException) {
         return res.status(

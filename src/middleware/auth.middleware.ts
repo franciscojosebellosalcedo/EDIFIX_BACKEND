@@ -3,12 +3,14 @@ import { AppException } from "../shared/errors/handler.error.ts";
 import { ERROR_RESPONSE_CODE } from "../shared/errors/error.response.code.ts";
 import { Security } from "../shared/security.ts";
 import { envConfig } from "../config/env/env.config.ts";
+import { AppDataSource } from "../config/database/database.config.ts";
+import { UserEntityDB } from "../modules/settings/users/infraestructure/database/user.entity.db.ts";
 
-export const authMiddleware = ( req: Request, res: Response , next: NextFunction ) =>{
+export const authMiddleware = async ( req: Request, res: Response , next: NextFunction ) =>{
     try {
 
         const authorization = req.headers.authorization;
-        
+
         if(!authorization){
             
             throw new AppException(
@@ -27,7 +29,15 @@ export const authMiddleware = ( req: Request, res: Response , next: NextFunction
 
         };
 
-        const payload = Security.verifyToken( token, envConfig.jwtSecretAccessToken as string );
+        const payload: any = Security.verifyToken( token, envConfig.jwtSecretAccessToken as string );
+
+        const repository = AppDataSource.getRepository( UserEntityDB );
+
+        const user = await repository.findOneBy({ usua_Id: payload.usua_Id});
+
+        req.context = {
+            user
+        }
         
         next();
 

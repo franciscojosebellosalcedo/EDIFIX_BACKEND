@@ -3,6 +3,10 @@ import { DataSource } from "typeorm";
 import { envConfig } from "../env/env.config.ts";
 import path from "node:path";
 import { UserEntityDB } from "../../modules/settings/users/infraestructure/database/user.entity.db.ts";
+import { ModuleEntityDB } from "../../modules/menu/infraestructure/database/module.entity.db.ts";
+import { OptionEntityDB } from "../../modules/menu/infraestructure/database/option.entity.db.ts";
+import { RolEntityDB } from "../../modules/settings/rols/infraestructure/database/rol.entity.db.ts";
+import { RolPermissionEntityDB } from "../../modules/settings/rols/infraestructure/database/rol.permission.entity.db.ts";
 
 export const AppDataSource = new DataSource({
 
@@ -21,7 +25,11 @@ export const AppDataSource = new DataSource({
     synchronize: false,
 
     entities: [
-        UserEntityDB
+        UserEntityDB,
+        ModuleEntityDB,
+        OptionEntityDB,
+        RolEntityDB,
+        RolPermissionEntityDB,
     ],
 
     migrations: process.env.RUNNING_TESTS === "true" ? [] : [

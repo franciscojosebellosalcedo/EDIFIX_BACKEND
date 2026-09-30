@@ -5,8 +5,9 @@ export default defineConfig({
         globals: true,
         setupFiles: ["./tests/setup.ts"],
         testTimeout: 10000,
+        reporters: ["verbose"],
         include: [
-            "tests/**/*.spec.ts"
+            "tests/*.spec.ts"
         ]
     }
 })

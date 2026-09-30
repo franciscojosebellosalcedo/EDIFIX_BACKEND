@@ -7,6 +7,7 @@ import { validateDTO } from "../../../../../shared/dto/validate.dto.ts";
 import { CreateUserDTO } from "../dto/create.user.dto.ts";
 import { responseHttp } from "../../../../../shared/reseponse/handler.response.ts";
 import { USER_RESPONSE_CODE } from "../../../../../shared/reseponse/user.response.code.ts";
+import { getCurrentUser } from "../../../../../shared/context/handler.current.user.ts";
 
 @injectable()
 export class UserController {
@@ -20,17 +21,19 @@ export class UserController {
 
     create = async ( req: Request, res: Response ) => {
 
-        const body: TCreateUser = req.body;
+        const user = getCurrentUser( req );
 
-        const dto = await validateDTO( CreateUserDTO , body );
-
-        const result = await this.createUserUseCase.execute({
-            usua_Nombre: dto.usua_Nombre,
-            usua_NombreUsuario: dto.usua_NombreUsuario,
-            usua_Contrasenia: dto.usua_Contrasenia,
-            usua_CreacionId: 1,
-            usua_RolId: dto.usua_RolId
-        });
+        const dto = await validateDTO( CreateUserDTO , req.body );
+        
+        const result = await this.createUserUseCase.execute(
+            {
+                usua_Nombre: dto.usua_Nombre,
+                usua_NombreUsuario: dto.usua_NombreUsuario,
+                usua_Contrasenia: dto.usua_Contrasenia,
+                usua_CreacionId: user.usua_Id,
+                usua_RolId: dto.usua_RolId
+            }
+        );
 
         return res.status( 201 ).json( 
             responseHttp( 201, USER_RESPONSE_CODE.USER_CREATED, true, "Usuario creado", result ) 

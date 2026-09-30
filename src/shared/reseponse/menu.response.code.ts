@@ -1,0 +1,3 @@
+export const MENU_RESPONSE_CODE = {
+    MENU_FIND_SUCCESS: "MENU_FIND_SUCCESS"
+}

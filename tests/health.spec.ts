@@ -1,7 +1,7 @@
 import request from "supertest";
 import { it, describe, expect } from "vitest";
-import app from "../../src/app";
-import { appConfig } from "../../src/config/app.config";
+import app from "../src/app";
+import { appConfig } from "../src/config/app.config";
 
 describe("GET health API", ()=>{
 

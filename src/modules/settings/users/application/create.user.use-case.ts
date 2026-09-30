@@ -26,9 +26,8 @@ export class CreateUserUseCase {
 
         const passwordHash = Security.hasPassword( values.usua_Contrasenia );
 
-        return await this.userRepository.create({
-            ...values,
-            usua_Contrasenia: passwordHash
-        });
+        values.usua_Contrasenia = passwordHash;
+
+        return await this.userRepository.create(values);
     }
 }
